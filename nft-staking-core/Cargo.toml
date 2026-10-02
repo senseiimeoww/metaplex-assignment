@@ -1,0 +1,23 @@
+[workspace]
+members = [
+    "programs/*"
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.89.0"
+
+[profile.release]
+overflow-checks = true
+lto = "fat"
+codegen-units = 1
+[profile.release.build-override]
+opt-level = 3
+incremental = false
+codegen-units = 1
+
+[patch.crates-io]
+# The full Asset/Collection convenience deserializers in mpl-core 0.11.2 exceed
+# Solana's 4 KiB stack-frame limit. This program uses only BaseAssetV1 and CPI APIs.
+mpl-core = { path = "vendor/mpl-core-0.11.2" }
